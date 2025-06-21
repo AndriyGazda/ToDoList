@@ -1,4 +1,4 @@
-import TaskControls from "../TaskControls/TaskControlsComponent";
+import TaskControls from "./TaskControls/TaskControlsComponent";
 import classes from "./HeaderComponent.module.css";
 
 const HeaderComponent = () => {

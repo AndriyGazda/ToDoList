@@ -1,0 +1,44 @@
+/* ModalComponent.module.css */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* напівпрозорий чорний фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* щоб модалка була поверх всього */
+}
+
+.modal {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  padding: 8px 15px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.closeBtn:hover {
+  background-color: #115293;
+}

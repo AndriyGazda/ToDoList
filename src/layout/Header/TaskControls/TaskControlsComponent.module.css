@@ -1,0 +1,20 @@
+.taskControls {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-around;
+}
+.taskControlsAddTask {
+  padding: 12px;
+
+  color: #fff;
+  background-color: #3ba455;
+
+  border-radius: 50px;
+}
+
+.taskControlsSortSelect {
+}
+
+.taskControlsButtonUpdate {
+}

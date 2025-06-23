@@ -1,7 +1,12 @@
-const TaskCard = () => {
+import type { Task } from "../../../hooks/useTask";
+
+interface TaskCardProps {
+  task: Task;
+}
+const TaskCard = ({ task }: TaskCardProps) => {
   return (
     <div>
-      <h3>Name Task</h3>
+      <h3>{task.title}</h3>
     </div>
   );
 };

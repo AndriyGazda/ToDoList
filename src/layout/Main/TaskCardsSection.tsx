@@ -1,9 +1,16 @@
 import TaskCard from "./TaskCard/TaskCard";
+import type { Task } from "../../hooks/useTask";
 
-const TaskCardsSection = () => {
+interface TaskCardsSectionProps {
+  tasks: Task[];
+}
+
+const TaskCardsSection = ({ tasks }: TaskCardsSectionProps) => {
   return (
     <div>
-      <TaskCard />
+      {tasks.map((task) => (
+        <TaskCard key={task.id} task={task} />
+      ))}
     </div>
   );
 };

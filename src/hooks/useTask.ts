@@ -7,14 +7,14 @@ export interface Task {
 }
 
 export const useTask = () => {
-  const [task, setTasks] = useState<Task[]>(() => {
+  const [tasks, setTasks] = useState<Task[]>(() => {
     const stored = localStorage.getItem("task");
     return stored ? JSON.parse(stored) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem("task", JSON.stringify(task));
-  }, [task]);
+    localStorage.setItem("task", JSON.stringify(tasks));
+  }, [tasks]);
 
   const addTask = (newTask: Task) =>
     setTasks((prevTasks) => [...prevTasks, newTask]);
@@ -26,5 +26,5 @@ export const useTask = () => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== delet.id));
   };
 
-  return { task, addTask, editTask, deleteTask };
+  return { tasks, addTask, editTask, deleteTask };
 };

@@ -5,8 +5,9 @@ import TaskCardsSection from "./layout/Main/TaskCardsSection";
 import { useTask } from "./hooks/useTask";
 
 function App() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { tasks, addTask, editTask, deleteTask } = useTask();
+  const { tasks, addTask } = useTask();
+
+  // const { tasks, addTask, editTask, deleteTask } = useTask();
 
   console.log("App render", tasks);
 

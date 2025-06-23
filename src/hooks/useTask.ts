@@ -22,8 +22,8 @@ export const useTask = () => {
     setTasks((prevTasks) =>
       prevTasks.map((task) => (task.id === edit.id ? edit : task))
     );
-  const deleteTask = (delet: Task) => {
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== delet.id));
+  const deleteTask = (id: string) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
   return { tasks, addTask, editTask, deleteTask };

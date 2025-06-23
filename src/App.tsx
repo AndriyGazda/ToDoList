@@ -5,7 +5,7 @@ import TaskCardsSection from "./layout/Main/TaskCardsSection";
 import { useTask } from "./hooks/useTask";
 
 function App() {
-  const { tasks, addTask } = useTask();
+  const { tasks, addTask, deleteTask } = useTask();
 
   // const { tasks, addTask, editTask, deleteTask } = useTask();
 
@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       <HeaderComponent onAddTask={addTask} />
-      <TaskCardsSection tasks={tasks} />
+      <TaskCardsSection tasks={tasks} onDeleteTask={deleteTask} />
     </>
   );
 }

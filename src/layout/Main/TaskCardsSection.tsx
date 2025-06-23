@@ -3,13 +3,14 @@ import type { Task } from "../../hooks/useTask";
 
 interface TaskCardsSectionProps {
   tasks: Task[];
+  onDeleteTask: (taskId: string) => void;
 }
 
-const TaskCardsSection = ({ tasks }: TaskCardsSectionProps) => {
+const TaskCardsSection = ({ tasks, onDeleteTask }: TaskCardsSectionProps) => {
   return (
     <div>
       {tasks.map((task) => (
-        <TaskCard key={task.id} task={task} />
+        <TaskCard key={task.id} task={task} onDeleteTask={onDeleteTask} />
       ))}
     </div>
   );

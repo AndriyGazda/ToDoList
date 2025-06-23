@@ -1,15 +1,42 @@
 import { Button } from "../../../component/ui/Button";
+import { Input } from "../../../component/ui/Input";
 import ModalComponent from "../../../component/ModalComponent/ModalComponent";
+
 import classes from "./TaskControlsComponent.module.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRerender } from "../../../hooks/useRerender";
 
-const TaskControls = () => {
+import type { Task } from "../../../hooks/useTask";
+
+interface TaskControlsProps {
+  onAddTask: (task: Task) => void;
+}
+
+const TaskControls = ({ onAddTask }: TaskControlsProps) => {
   const render = useRerender();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const titleRef = useRef<HTMLInputElement>(null);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const title = titleRef.current?.value.trim() || "";
+    if (!title) return;
+
+    const newTask: Task = {
+      id: crypto.randomUUID(),
+      title: title.trim(),
+      description: "",
+    };
+    x;
+    onAddTask(newTask);
+    if (titleRef.current) titleRef.current.value = "";
+
+    setIsModalOpen(false);
+  };
 
   console.log("render");
   return (
@@ -23,7 +50,10 @@ const TaskControls = () => {
       </Button>
       <ModalComponent isOpen={isModalOpen} onClose={closeModal}>
         <h2>Форма або будь-який контент тут</h2>
-      
+        <form action="" onSubmit={handleSubmit}>
+          <Input type="text" placeholder="Task title" ref={titleRef} />
+          <Button type="submit">Add</Button>
+        </form>
       </ModalComponent>
 
       <div>
@@ -43,5 +73,4 @@ const TaskControls = () => {
     </div>
   );
 };
-
 export default TaskControls;

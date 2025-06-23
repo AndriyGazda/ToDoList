@@ -1,6 +1,8 @@
-export const Input = ({
-  children,
-  ...inputProps
-}: React.InputHTMLAttributes<HTMLInputElement>) => {
-  return <input {...inputProps}>{children}</input>;
-};
+import { forwardRef } from "react";
+
+export const Input = forwardRef<
+  HTMLInputElement,
+  React.InputHTMLAttributes<HTMLInputElement>
+>((inputProps, ref) => {
+  return <input ref={ref} {...inputProps} />;
+});

@@ -31,7 +31,7 @@ const TaskControls = ({ onAddTask }: TaskControlsProps) => {
       title: title.trim(),
       description: "",
     };
-    x;
+
     onAddTask(newTask);
     if (titleRef.current) titleRef.current.value = "";
 

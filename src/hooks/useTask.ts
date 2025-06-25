@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export interface Task {
   id: string;
   title: string;
-  description: string;
+  description?: string;
 }
 
 export const useTask = () => {
@@ -16,8 +16,10 @@ export const useTask = () => {
     localStorage.setItem("task", JSON.stringify(tasks));
   }, [tasks]);
 
-  const addTask = (newTask: Task) =>
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+  const addTask = useCallback(
+    (newTask: Task) => setTasks((prevTasks) => [...prevTasks, newTask]),
+    []
+  );
   const editTask = (edit: Task) =>
     setTasks((prevTasks) =>
       prevTasks.map((task) => (task.id === edit.id ? edit : task))

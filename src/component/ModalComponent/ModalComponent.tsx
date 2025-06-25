@@ -1,4 +1,4 @@
-// import { useState } from "react";
+import { Button } from "../ui/Button";
 import classes from "./ModalComponent.module.css";
 import type { ReactNode } from "react";
 
@@ -14,9 +14,9 @@ const ModalComponent = ({ isOpen, onClose, children }: ModalComponentProps) => {
   return (
     <div className={classes.overlay}>
       <div className={classes.modal}>
-        <button onClick={onClose} className={classes.closeBtn}>
+        <Button onClick={onClose} className={classes.closeBtn}>
           Закрити
-        </button>
+        </Button>
         {children}
       </div>
     </div>

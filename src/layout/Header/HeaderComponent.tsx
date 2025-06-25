@@ -1,11 +1,12 @@
 import TaskControls from "./TaskControls/TaskControlsComponent";
 import classes from "./HeaderComponent.module.css";
 import type { Task } from "../../hooks/useTask";
+import { memo } from "react";
 
 interface HeaderComponentProps {
   onAddTask: (task: Task) => void;
 }
-const HeaderComponent = ({ onAddTask }: HeaderComponentProps) => {
+const HeaderComponent = memo(({ onAddTask }: HeaderComponentProps) => {
   return (
     <>
       <div className={classes.header}>
@@ -15,6 +16,6 @@ const HeaderComponent = ({ onAddTask }: HeaderComponentProps) => {
       <div className={classes.fullWidthLine} />
     </>
   );
-};
+});
 
 export default HeaderComponent;

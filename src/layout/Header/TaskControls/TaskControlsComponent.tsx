@@ -30,11 +30,20 @@ const TaskControls = ({ onAddTask }: TaskControlsProps) => {
       <TaskFormModalComponent
         isOpen={isModalOpen}
         onClose={closeModal}
-        onSubmit={(taskInfo: { title: string; description?: string }) =>
+        onSubmit={(taskInfo: {
+          title: string;
+          description?: string;
+          status?: string;
+          priority?: string;
+          dueDate?: string;
+        }) =>
           onAddTask({
             id: crypto.randomUUID(),
             title: taskInfo.title,
-            description: taskInfo.description || "",
+            description: taskInfo.description,
+            status: taskInfo.status,
+            priority: taskInfo.priority,
+            dueDate: taskInfo.dueDate,
           })
         }
         heading="Create New Task"

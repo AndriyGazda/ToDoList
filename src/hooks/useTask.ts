@@ -3,10 +3,10 @@ import { useState, useEffect, useCallback } from "react";
 export interface Task {
   id: string;
   title: string;
-  description?: string;
-  status?: string;
-  priority?: string;
-  dueDate?: string;
+  description: string;
+  status: string;
+  priority: string;
+  dueDate: string;
 }
 
 export const useTask = () => {
@@ -23,13 +23,16 @@ export const useTask = () => {
     (newTask: Task) => setTasks((prevTasks) => [...prevTasks, newTask]),
     []
   );
-  const editTask = (edit: Task) =>
-    setTasks((prevTasks) =>
-      prevTasks.map((task) => (task.id === edit.id ? edit : task))
-    );
-  const deleteTask = (id: string) => {
+  const editTask = useCallback(
+    (edit: Task) =>
+      setTasks((prevTasks) =>
+        prevTasks.map((task) => (task.id === edit.id ? edit : task))
+      ),
+    []
+  );
+  const deleteTask = useCallback((id: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
-  };
+  }, []);
 
   return { tasks, addTask, editTask, deleteTask };
 };

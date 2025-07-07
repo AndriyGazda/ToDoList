@@ -1,22 +1,23 @@
-import { Button } from "../../../component/ui/Button";
+import { Button } from "../../../ui/Button";
 
-import classes from "./TaskControlsComponent.module.css";
+import classes from "./TaskControls.module.css";
 import { useState } from "react";
 
-import type { Task } from "../../../hooks/useTask";
-import TaskFormModalComponent from "../../../component/TaskFormModalComponent/TaskFormModalComponent";
+import TaskFormModal from "../../../component/TaskFormModal/TaskFormModal";
+import { useTaskContext } from "../../../context/TaskContext";
 
-interface TaskControlsProps {
-  onAddTask: (task: Task) => void;
-}
-
-const TaskControls = ({ onAddTask }: TaskControlsProps) => {
+const TaskControls = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditable, setIsEditable] = useState(true);
+  const { addTask } = useTaskContext();
 
-  const openModal = () => setIsModalOpen(true);
+  const openModal = () => {
+    setIsModalOpen(true);
+    setIsEditable(true);
+  };
   const closeModal = () => setIsModalOpen(false);
 
-  console.log("render");
+  console.log("TaskControls render");
   return (
     <div className={classes.taskControls}>
       <Button
@@ -27,17 +28,11 @@ const TaskControls = ({ onAddTask }: TaskControlsProps) => {
         ➕ NEW TASK
       </Button>
 
-      <TaskFormModalComponent
+      <TaskFormModal
         isOpen={isModalOpen}
         onClose={closeModal}
-        onSubmit={(taskInfo: {
-          title: string;
-          description?: string;
-          status?: string;
-          priority?: string;
-          dueDate?: string;
-        }) =>
-          onAddTask({
+        onSubmit={(taskInfo) =>
+          addTask({
             id: crypto.randomUUID(),
             title: taskInfo.title,
             description: taskInfo.description,
@@ -46,6 +41,7 @@ const TaskControls = ({ onAddTask }: TaskControlsProps) => {
             dueDate: taskInfo.dueDate,
           })
         }
+        isEditable={isEditable}
         heading="Create New Task"
         submitLabel="Add Task"
       />

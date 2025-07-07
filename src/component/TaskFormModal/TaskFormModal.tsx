@@ -1,19 +1,23 @@
-import ModalComponent from "../../component/ModalComponent/ModalComponent";
+import ModalComponent from "../Modal/Modal";
+// import classes from "./TaskFormModal.module.css";
 
-import { Button } from "../../component/ui/Button";
-import { Input } from "../../component/ui/Input";
-import { useRef, useEffect } from "react";
+import { Button } from "../../ui/Button";
+import { Input } from "../../ui/Input";
+import { useRef, useEffect, useState } from "react";
+import type { Task } from "../../hooks/useTask";
+
+function getCurrentDate() {
+  const date = new Date();
+  return date.toISOString().split("T")[0];
+}
 
 interface TaskFormModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (taskInfo: {
-    title: string;
-    description?: string;
-    priority?: string;
-    status?: string;
-    dueDate?: string;
-  }) => void;
+  onSubmit: (taskInfo: Omit<Task, "id">) => void;
+  isEditable?: boolean;
+  onEditClick?: () => void;
+
   initialTitle?: string;
   initialDescription?: string;
   initialPriority?: string;
@@ -30,10 +34,13 @@ interface TaskFormModalRef {
   dueDateRef?: HTMLInputElement | null;
 }
 
-const TaskFormModalComponent = ({
+const TaskFormModal = ({
   isOpen,
   onClose,
   onSubmit,
+  isEditable = false,
+  onEditClick,
+
   initialTitle = "",
   initialDescription = "",
   initialPriority = "",
@@ -42,6 +49,7 @@ const TaskFormModalComponent = ({
   heading = "Task Form",
   submitLabel = "Submit",
 }: TaskFormModalProps) => {
+  const [status, setStatus] = useState<string>(initialStatus || "planned");
   const formRef = useRef<TaskFormModalRef>({});
 
   useEffect(() => {
@@ -75,14 +83,9 @@ const TaskFormModalComponent = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const title = formRef.current.titleRef?.value.trim();
-    const description = formRef.current.descriptionRef?.value.trim();
-    const priority = formRef.current.priorityRef?.value;
-
-    const status = document.querySelector<HTMLInputElement>(
-      'input[name="statusTask"]:checked'
-    )?.value;
-
-    const dueDate = formRef.current.dueDateRef?.value;
+    const description = formRef.current.descriptionRef?.value.trim() || "";
+    const priority = formRef.current.priorityRef?.value || "low";
+    const dueDate = formRef.current.dueDateRef?.value || getCurrentDate();
 
     if (!title) return;
 
@@ -93,12 +96,14 @@ const TaskFormModalComponent = ({
   return (
     <ModalComponent isOpen={isOpen} onClose={onClose}>
       <h2>{heading}</h2>
+
       <form onSubmit={handleSubmit}>
         <label htmlFor="titleTask">Title</label>
         <Input
           name="titleTask"
           id="titleTask"
           type="text"
+          disabled={!isEditable}
           ref={(el) => {
             formRef.current.titleRef = el;
           }}
@@ -113,6 +118,7 @@ const TaskFormModalComponent = ({
           }}
           rows={7}
           cols={40}
+          disabled={!isEditable}
         ></textarea>
 
         <label htmlFor="priorityTask">Priority</label>
@@ -122,6 +128,7 @@ const TaskFormModalComponent = ({
           ref={(el) => {
             formRef.current.priorityRef = el;
           }}
+          disabled={!isEditable}
         >
           <option value="low">Low</option>
           <option value="medium">Medium</option>
@@ -138,7 +145,9 @@ const TaskFormModalComponent = ({
                 name="statusTask"
                 id="statusTaskDone"
                 value="done"
-                defaultChecked={initialStatus === "done"}
+                defaultChecked={status === "done"}
+                onChange={(e) => setStatus(e.target.value)}
+                disabled={!isEditable}
               />
               <label htmlFor="statusTaskDone">Done</label>
             </>
@@ -148,7 +157,9 @@ const TaskFormModalComponent = ({
             name="statusTask"
             id="statusTaskInProgress"
             value="in-progress"
-            defaultChecked={initialStatus === "in-progress"}
+            defaultChecked={status === "in-progress"}
+            onChange={(e) => setStatus(e.target.value)}
+            disabled={!isEditable}
           />
           <label htmlFor="statusTaskInProgress">In Progress</label>
           <Input
@@ -156,7 +167,9 @@ const TaskFormModalComponent = ({
             name="statusTask"
             id="statusTaskPlanned"
             value="planned"
-            defaultChecked={initialStatus === "planned"}
+            defaultChecked={status === "planned"}
+            onChange={(e) => setStatus(e.target.value)}
+            disabled={!isEditable}
           />
           <label htmlFor="statusTaskPlanned">Planned</label>
         </fieldset>
@@ -166,16 +179,22 @@ const TaskFormModalComponent = ({
           type="date"
           name="dueDateTask"
           id="dueDateTask"
-          defaultValue={new Date().toISOString().split("T")[0]}
+          defaultValue={getCurrentDate()}
           ref={(el) => {
             formRef.current.dueDateRef = el;
           }}
+          disabled={!isEditable}
         />
 
         <Button type="submit">{submitLabel}</Button>
       </form>
+      {!isEditable && onEditClick && (
+        <Button type="button" onClick={onEditClick}>
+          Edit Task
+        </Button>
+      )}
     </ModalComponent>
   );
 };
 
-export default TaskFormModalComponent;
+export default TaskFormModal;

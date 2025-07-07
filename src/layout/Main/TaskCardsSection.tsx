@@ -1,30 +1,17 @@
 import TaskCard from "./TaskCard/TaskCard";
-import type { Task } from "../../hooks/useTask";
+import classes from "./TaskCardsSection.module.css";
+import { useTaskContext } from "../../context/TaskContext";
+import { useMemo } from "react";
 
-interface TaskCardsSectionProps {
-  tasks: Task[];
-  onEditTask: (task: Task) => void;
-  onDeleteTask: (taskId: string) => void;
-}
-
-const TaskCardsSection = ({
-  tasks,
-  onEditTask,
-  onDeleteTask,
-}: TaskCardsSectionProps) => {
-  console.log("TaskCardsSection render");
-  return (
-    <div>
-      {tasks.map((task) => (
-        <TaskCard
-          key={task.id}
-          task={task}
-          onEditTask={onEditTask}
-          onDeleteTask={onDeleteTask}
-        />
-      ))}
-    </div>
+const TaskCardsSection = () => {
+  const { tasks } = useTaskContext();
+  const memoizedTasks = useMemo(
+    () => tasks.map((task) => <TaskCard key={task.id} task={task} />),
+    [tasks]
   );
+
+  console.log("TaskCardsSection render");
+  return <div className={classes.taskCardsSection}>{memoizedTasks}</div>;
 };
 
 export default TaskCardsSection;

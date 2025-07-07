@@ -1,41 +1,62 @@
-import { Button } from "../../../component/ui/Button";
+import { Button } from "../../../ui/Button";
 import type { Task } from "../../../hooks/useTask";
+import classes from "./TaskCard.module.css";
 
-import { useState } from "react";
-import TaskFormModalComponent from "../../../component/TaskFormModalComponent/TaskFormModalComponent";
+import { memo, useState } from "react";
+import TaskFormModalComponent from "../../../component/TaskFormModal/TaskFormModal";
+import { useTaskContext } from "../../../context/TaskContext";
 
 interface TaskCardProps {
   task: Task;
-  onEditTask: (task: Task) => void;
-  onDeleteTask: (taskId: string) => void;
 }
 
-const TaskCard = ({ task, onEditTask, onDeleteTask }: TaskCardProps) => {
+const TaskCard = memo(({ task }: TaskCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditable, setIsEditable] = useState(false);
+  const { editTask, deleteTask } = useTaskContext();
 
-  const openModal = () => setIsModalOpen(true);
+  const openModal = () => {
+    setIsModalOpen(true);
+    setIsEditable(false);
+  };
   const closeModal = () => setIsModalOpen(false);
 
+  console.log("TaskCard render");
+
   return (
-    <div>
-      <h3>{task.title}</h3>
-      <p>{task.description || "No description"}</p>
-      <p>Priority: {task.priority || "No description"}</p>
-      <p>Status: {task.status || "No description"}</p>
-      <p>Due Date: {task.dueDate || "No due date"}</p>
-      <Button onClick={() => onDeleteTask(task.id)}> Delete </Button>
-      <Button onClick={openModal}>Edit Task</Button>
+    <div className={classes.taskCard} id={`task-${task.id}`}>
+      <h3 className={classes.title}>{task.title}</h3>
+      <p className={classes.description}>
+        <span className={classes.label}> Description: </span>
+        {task.description || "No description"}
+      </p>
+      <p className={classes.priority}>
+        <span className={classes.label}> Priority: </span>
+        {task.priority || "No description"}
+      </p>
+      <p className={classes.status}>
+        <span className={classes.label}> Status: </span>
+        {task.status || "No description"}
+      </p>
+      <p className={classes.date}>
+        <span className={classes.label}> Due Date: </span>{" "}
+        {task.dueDate || "No due date"}
+      </p>
+      <Button
+        onClick={() => deleteTask(task.id)}
+        className={classes.buttonDelaete}
+      >
+        Delete
+      </Button>
+      <Button onClick={openModal} className={classes.buttonDetail}>
+        Detail task
+      </Button>
+
       <TaskFormModalComponent
         isOpen={isModalOpen}
         onClose={closeModal}
-        onSubmit={(taskInfo: {
-          title: string;
-          description?: string;
-          priority?: string;
-          status?: string;
-          dueDate?: string;
-        }) =>
-          onEditTask({
+        onSubmit={(taskInfo) =>
+          editTask({
             ...task,
             title: taskInfo.title,
             description: taskInfo.description,
@@ -51,9 +72,11 @@ const TaskCard = ({ task, onEditTask, onDeleteTask }: TaskCardProps) => {
         initialDueDate={task.dueDate || new Date().toISOString().split("T")[0]}
         heading={`Edit Task ${task.title}`}
         submitLabel="Save"
+        isEditable={isEditable}
+        onEditClick={() => setIsEditable(true)}
       />
     </div>
   );
-};
+});
 
 export default TaskCard;

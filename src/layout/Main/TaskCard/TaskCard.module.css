@@ -1,0 +1,67 @@
+.taskCard {
+  width: 300px;
+  height: 400px;
+  padding: 26px;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: #3ba45529;
+  border-radius: 50px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  /* overflow-y: auto; */
+  overflow-wrap: break-word;
+}
+.taskCard:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.title {
+  font-size: 25px;
+  text-align: center;
+}
+
+.description {
+  max-width: 100%;
+  margin: 10px 0;
+}
+.priority {
+}
+.status {
+}
+.date {
+}
+.buttonDelaete,
+.buttonDetail {
+  position: absolute;
+  bottom: 10px;
+
+  margin-top: 10px;
+  width: 140px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #3ba455;
+  transition: background-color 0.3s ease-in-out;
+  color: white;
+  border: none;
+}
+.buttonDelaete {
+  left: 10px;
+}
+.buttonDetail {
+  right: 10px;
+}
+
+.buttonDelaete:hover,
+.buttonDetail:hover {
+  background-color: #2f8c44;
+  transition: background-color 0.3s ease-in-out;
+}

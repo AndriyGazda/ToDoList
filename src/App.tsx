@@ -1,23 +1,17 @@
 import "./App.css";
-import HeaderComponent from "./layout/Header/HeaderComponent";
+import HeaderComponent from "./layout/Header/Header";
 import TaskCardsSection from "./layout/Main/TaskCardsSection";
 
-import { useTask } from "./hooks/useTask";
+import { TaskProvider } from "./context/TaskProvider";
 
 function App() {
-  const { tasks, addTask, editTask, deleteTask } = useTask();
-
-  console.log("App render", tasks);
+  console.log("App render");
 
   return (
-    <>
-      <HeaderComponent onAddTask={addTask} />
-      <TaskCardsSection
-        tasks={tasks}
-        onEditTask={editTask}
-        onDeleteTask={deleteTask}
-      />
-    </>
+    <TaskProvider>
+      <HeaderComponent />
+      <TaskCardsSection />
+    </TaskProvider>
   );
 }
 

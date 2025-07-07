@@ -1,15 +1,18 @@
 import { Button } from "../../../ui/Button";
 
 import classes from "./TaskControls.module.css";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 import TaskFormModal from "../../../component/TaskFormModal/TaskFormModal";
-import { useTaskContext } from "../../../context/TaskContext";
+import type { Task } from "../../../hooks/useTask";
 
-const TaskControls = () => {
+interface TaskControlsProps {
+  onAddTask: (task: Task) => void;
+}
+
+const TaskControls = memo(({ onAddTask }: TaskControlsProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
-  const { addTask } = useTaskContext();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -32,7 +35,7 @@ const TaskControls = () => {
         isOpen={isModalOpen}
         onClose={closeModal}
         onSubmit={(taskInfo) =>
-          addTask({
+          onAddTask({
             id: crypto.randomUUID(),
             title: taskInfo.title,
             description: taskInfo.description,
@@ -55,5 +58,5 @@ const TaskControls = () => {
       </div>
     </div>
   );
-};
+});
 export default TaskControls;

@@ -4,16 +4,16 @@ import classes from "./TaskCard.module.css";
 
 import { memo, useState } from "react";
 import TaskFormModalComponent from "../../../component/TaskFormModal/TaskFormModal";
-import { useTaskContext } from "../../../context/TaskContext";
 
 interface TaskCardProps {
   task: Task;
+  onEditTask: (task: Task) => void;
+  onDeleteTask: (taskId: string) => void;
 }
 
-const TaskCard = memo(({ task }: TaskCardProps) => {
+const TaskCard = memo(({ task, onEditTask, onDeleteTask }: TaskCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
-  const { editTask, deleteTask } = useTaskContext();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -43,7 +43,7 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
         {task.dueDate || "No due date"}
       </p>
       <Button
-        onClick={() => deleteTask(task.id)}
+        onClick={() => onDeleteTask(task.id)}
         className={classes.buttonDelaete}
       >
         Delete
@@ -56,7 +56,7 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
         isOpen={isModalOpen}
         onClose={closeModal}
         onSubmit={(taskInfo) =>
-          editTask({
+          onEditTask({
             ...task,
             title: taskInfo.title,
             description: taskInfo.description,

@@ -1,18 +1,15 @@
 import { Button } from "../../../ui/Button";
+import TaskFormModal from "../../../component/TaskFormModal/TaskFormModal";
 
 import classes from "./TaskControls.module.css";
 import { memo, useState } from "react";
 
-import TaskFormModal from "../../../component/TaskFormModal/TaskFormModal";
-import type { Task } from "../../../hooks/useTask";
+import { useTaskStore } from "../../../store/useTaskStore";
 
-interface TaskControlsProps {
-  onAddTask: (task: Task) => void;
-}
-
-const TaskControls = memo(({ onAddTask }: TaskControlsProps) => {
+const TaskControls = memo(() => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
+  const onAddTask = useTaskStore((state) => state.addTask);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -20,7 +17,7 @@ const TaskControls = memo(({ onAddTask }: TaskControlsProps) => {
   };
   const closeModal = () => setIsModalOpen(false);
 
-  console.log("TaskControls render");
+  console.log("TaskControls render zustand");
   return (
     <div className={classes.taskControls}>
       <Button

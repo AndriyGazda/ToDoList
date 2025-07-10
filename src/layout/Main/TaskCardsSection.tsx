@@ -1,28 +1,15 @@
-import type { Task } from "../../hooks/useTask";
+import { useTaskStore } from "../../store/useTaskStore";
 import TaskCard from "./TaskCard/TaskCard";
 import classes from "./TaskCardsSection.module.css";
 
-interface TaskCardsSectionProps {
-  tasks: Task[];
-  onEditTask: (task: Task) => void;
-  onDeleteTask: (taskId: string) => void;
-}
+const TaskCardsSection = () => {
+  const tasks = useTaskStore((state) => state.tasks);
 
-const TaskCardsSection = ({
-  tasks,
-  onEditTask,
-  onDeleteTask,
-}: TaskCardsSectionProps) => {
   console.log("TaskCardsSection render");
   return (
     <div className={classes.taskCardsSection}>
       {tasks.map((task) => (
-        <TaskCard
-          key={task.id}
-          task={task}
-          onEditTask={onEditTask}
-          onDeleteTask={onDeleteTask}
-        />
+        <TaskCard key={task.id} task={task} />
       ))}
     </div>
   );

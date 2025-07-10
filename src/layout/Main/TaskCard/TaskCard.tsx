@@ -1,19 +1,21 @@
 import { Button } from "../../../ui/Button";
-import type { Task } from "../../../hooks/useTask";
 import classes from "./TaskCard.module.css";
 
 import { memo, useState } from "react";
 import TaskFormModalComponent from "../../../component/TaskFormModal/TaskFormModal";
+import { useTaskStore } from "../../../store/useTaskStore";
+import type { Task } from "../../../interface/taskInterface";
 
 interface TaskCardProps {
   task: Task;
-  onEditTask: (task: Task) => void;
-  onDeleteTask: (taskId: string) => void;
 }
 
-const TaskCard = memo(({ task, onEditTask, onDeleteTask }: TaskCardProps) => {
+const TaskCard = memo(({ task }: TaskCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
+
+  const onEditTask = useTaskStore((state) => state.editTask);
+  const onDeleteTask = useTaskStore((state) => state.deleteTask);
 
   const openModal = () => {
     setIsModalOpen(true);

@@ -3,6 +3,7 @@
 
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 .taskControlsAddTask {
   padding: 12px;
@@ -11,10 +12,21 @@
   background-color: #3ba455;
 
   border-radius: 50px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .taskControlsSortSelect {
-}
+  padding: 12px 16px;
+  color: #fff;
+  background-color: #3ba455;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
 
-.taskControlsButtonUpdate {
+  appearance: none;
+  outline: none;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }

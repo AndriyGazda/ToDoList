@@ -9,7 +9,9 @@ export interface Task {
 
 export interface TaskStore {
   tasks: Task[];
+  sortOption: string;
   addTask: (task: Task) => void;
   editTask: (task: Task) => void;
   deleteTask: (id: string) => void;
+  sortTasks: (sortOption: string) => void;
 }

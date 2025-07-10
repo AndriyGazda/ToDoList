@@ -2,20 +2,26 @@ import { Button } from "../../../ui/Button";
 import TaskFormModal from "../../../component/TaskFormModal/TaskFormModal";
 
 import classes from "./TaskControls.module.css";
-import { memo, useState } from "react";
+import { useState } from "react";
 
 import { useTaskStore } from "../../../store/useTaskStore";
 
-const TaskControls = memo(() => {
+const TaskControls = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
   const onAddTask = useTaskStore((state) => state.addTask);
+  // const [sortTask, setSortTask] = useState("");
+  const sortTask = useTaskStore((state) => state.sortTasks);
 
   const openModal = () => {
     setIsModalOpen(true);
     setIsEditable(true);
   };
   const closeModal = () => setIsModalOpen(false);
+
+  const onSortTask = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    sortTask(event.target.value);
+  };
 
   console.log("TaskControls render zustand");
   return (
@@ -47,13 +53,18 @@ const TaskControls = memo(() => {
       />
 
       <div>
-        <select className={classes.taskControlsSortSelect} name="sortTask">
-          <option value="done">Sort by done</option>
-          <option value="progress">Sort by progress</option>
-          <option value="plans">Sort by plans</option>
+        <select
+          className={classes.taskControlsSortSelect}
+          name="sortTask"
+          onChange={onSortTask}
+        >
+          <option value="">No sorting</option>
+          <option value="status">Sort by status</option>
+          <option value="priority">Sort by priority</option>
+          <option value="date">Sort by date</option>
         </select>
       </div>
     </div>
   );
-});
+};
 export default TaskControls;

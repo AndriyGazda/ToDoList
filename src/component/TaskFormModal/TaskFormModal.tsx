@@ -1,10 +1,9 @@
 import ModalComponent from "../Modal/Modal";
-// import classes from "./TaskFormModal.module.css";
 
 import { Button } from "../../ui/Button";
 import { Input } from "../../ui/Input";
 import { useRef, useEffect, useState } from "react";
-import type { Task } from "../../hooks/useTask";
+import type { Task } from "../../interface/taskInterface";
 
 function getCurrentDate() {
   const date = new Date();

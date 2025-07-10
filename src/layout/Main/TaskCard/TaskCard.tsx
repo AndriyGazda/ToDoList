@@ -23,14 +23,18 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
   };
   const closeModal = () => setIsModalOpen(false);
 
-  console.log("TaskCard render");
+  console.log("TaskCard render  zustand");
 
   return (
     <div className={classes.taskCard} id={`task-${task.id}`}>
       <h3 className={classes.title}>{task.title}</h3>
       <p className={classes.description}>
         <span className={classes.label}> Description: </span>
-        {task.description || "No description"}
+        {task.description
+          ? task.description.length > 80
+            ? `${task.description.slice(0, 80)} ...`
+            : task.description
+          : "No description"}
       </p>
       <p className={classes.priority}>
         <span className={classes.label}> Priority: </span>

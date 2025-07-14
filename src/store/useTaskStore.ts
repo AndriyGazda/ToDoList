@@ -8,7 +8,7 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
   addTask: (task) => {
     const state = get();
     const updatedTasks = [...state.tasks, task];
-    localStorage.setItem("task", JSON.stringify(updatemodifiedTasks));
+    localStorage.setItem("task", JSON.stringify(updatedTasks));
 
     return set(() => {
       const sortedTasks = sortByOption(updatedTasks, state.sortOption);

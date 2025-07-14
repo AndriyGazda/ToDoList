@@ -1,4 +1,4 @@
-import { Button } from "../../ui/Button";
+import { Button } from "@/ui";
 import classes from "./Modal.module.css";
 import type { ReactNode } from "react";
 
@@ -8,7 +8,11 @@ interface ModalComponentProps {
   children: ReactNode;
 }
 
-const ModalComponent = ({ isOpen, onClose, children }: ModalComponentProps) => {
+export const ModalComponent = ({
+  isOpen,
+  onClose,
+  children,
+}: ModalComponentProps) => {
   if (!isOpen) return null;
 
   console.log("ModalComponent render");
@@ -23,5 +27,3 @@ const ModalComponent = ({ isOpen, onClose, children }: ModalComponentProps) => {
     </div>
   );
 };
-
-export default ModalComponent;

@@ -1,9 +1,9 @@
-import ModalComponent from "../Modal/Modal";
+import { ModalComponent } from "../Modal/Modal";
 
-import { Button } from "../../ui/Button";
-import { Input } from "../../ui/Input";
+import { Button, Input } from "@/ui";
+
 import { useRef, useEffect, useState } from "react";
-import type { Task } from "../../interface/taskInterface";
+import type { Task } from "@/interface/taskInterface";
 
 function getCurrentDate() {
   const date = new Date();

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Task, TaskStore } from "../interface/taskInterface";
+import type { Task, TaskStore } from "@/interface/taskInterface";
 
 export const useTaskStore = create<TaskStore>((set, get) => ({
   tasks: JSON.parse(localStorage.getItem("task") || "[]"),
@@ -8,7 +8,7 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
   addTask: (task) => {
     const state = get();
     const updatedTasks = [...state.tasks, task];
-    localStorage.setItem("task", JSON.stringify(updatedTasks));
+    localStorage.setItem("task", JSON.stringify(updatemodifiedTasks));
 
     return set(() => {
       const sortedTasks = sortByOption(updatedTasks, state.sortOption);

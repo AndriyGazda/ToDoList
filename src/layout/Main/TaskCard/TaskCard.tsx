@@ -1,10 +1,11 @@
-import { Button } from "../../../ui/Button";
-import classes from "./TaskCard.module.css";
+import { Button } from "@/ui";
+
+import classes from "@/TaskCard.module.css";
 
 import { memo, useState } from "react";
-import TaskFormModalComponent from "../../../component/TaskFormModal/TaskFormModal";
-import { useTaskStore } from "../../../store/useTaskStore";
-import type { Task } from "../../../interface/taskInterface";
+import TaskFormModalComponent from "@/component/TaskFormModal/TaskFormModal";
+import { useTaskStore } from "@/store/useTaskStore";
+import type { Task } from "@/interface/taskInterface";
 
 interface TaskCardProps {
   task: Task;

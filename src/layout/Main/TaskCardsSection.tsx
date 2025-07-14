@@ -1,4 +1,4 @@
-import { useTaskStore } from "../../store/useTaskStore";
+import { useTaskStore } from "@/store/useTaskStore";
 import TaskCard from "./TaskCard/TaskCard";
 import classes from "./TaskCardsSection.module.css";
 

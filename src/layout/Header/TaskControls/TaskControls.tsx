@@ -1,10 +1,10 @@
-import { Button } from "../../../ui/Button";
-import TaskFormModal from "../../../component/TaskFormModal/TaskFormModal";
+import { Button } from "@/ui";
+import TaskFormModal from "@/component/TaskFormModal/TaskFormModal";
 
-import classes from "./TaskControls.module.css";
+import classes from "@/TaskControls.module.css";
 import { useState } from "react";
 
-import { useTaskStore } from "../../../store/useTaskStore";
+import { useTaskStore } from "@/store/useTaskStore";
 
 const TaskControls = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

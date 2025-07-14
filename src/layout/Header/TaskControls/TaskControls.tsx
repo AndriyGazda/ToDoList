@@ -1,7 +1,7 @@
 import { Button } from "@/ui";
 import TaskFormModal from "@/component/TaskFormModal/TaskFormModal";
 
-import classes from "@/TaskControls.module.css";
+import classes from "./TaskControls.module.css";
 import { useState } from "react";
 
 import { useTaskStore } from "@/store/useTaskStore";

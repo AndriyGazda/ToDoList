@@ -1,6 +1,6 @@
 import { Button } from "@/ui";
 
-import classes from "@/TaskCard.module.css";
+import classes from "./TaskCard.module.css";
 
 import { memo, useState } from "react";
 import TaskFormModalComponent from "@/component/TaskFormModal/TaskFormModal";

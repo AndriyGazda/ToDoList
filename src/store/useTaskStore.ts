@@ -1,49 +1,47 @@
 import { create } from "zustand";
-import type { Task, TaskStore } from "@/interface/taskInterface";
+import type { Task, TaskStore } from "@/interface/task.interface.ts";
+import { persist } from "zustand/middleware";
 
-export const useTaskStore = create<TaskStore>((set, get) => ({
-  tasks: JSON.parse(localStorage.getItem("task") || "[]"),
-  sortOption: "",
+export const useTaskStore = create<TaskStore>()(
+  persist(
+    (set, get) => ({
+      tasks: [],
+      sortOption: "",
 
-  addTask: (task) => {
-    const state = get();
-    const updatedTasks = [...state.tasks, task];
-    localStorage.setItem("task", JSON.stringify(updatedTasks));
+      addTask: (task) => {
+        const state = get();
+        const updatedTasks = [...state.tasks, task];
+        const sortedTasks = sortByOption(updatedTasks, state.sortOption);
+        set({ tasks: sortedTasks });
+      },
 
-    return set(() => {
-      const sortedTasks = sortByOption(updatedTasks, state.sortOption);
-      return { tasks: sortedTasks };
-    });
-  },
+      editTask: (task) => {
+        const state = get();
+        const updatedTasks = state.tasks.map((t) =>
+          t.id === task.id ? task : t,
+        );
+        const sortedTasks = sortByOption(updatedTasks, state.sortOption);
+        set({ tasks: sortedTasks });
+      },
 
-  editTask: (task) => {
-    const state = get();
-    const updatedTasks = state.tasks.map((t) => (t.id === task.id ? task : t));
-    localStorage.setItem("task", JSON.stringify(updatedTasks));
+      deleteTask: (id) => {
+        const state = get();
+        const updatedTasks = state.tasks.filter((t) => t.id !== id);
+        const sortedTasks = sortByOption(updatedTasks, state.sortOption);
+        set({ tasks: sortedTasks });
+      },
 
-    return set(() => {
-      const sortedTasks = sortByOption(updatedTasks, state.sortOption);
-      return { tasks: sortedTasks };
-    });
-  },
-
-  deleteTask: (id) => {
-    const state = get();
-    const updatedTasks = state.tasks.filter((t) => t.id !== id);
-    localStorage.setItem("task", JSON.stringify(updatedTasks));
-
-    return set(() => {
-      const sortedTasks = sortByOption(updatedTasks, state.sortOption);
-      return { tasks: sortedTasks };
-    });
-  },
-
-  sortTasks: (sortOption) => {
-    const state = get();
-    const sortedTasks = sortByOption(state.tasks, sortOption);
-    return set(() => ({ tasks: sortedTasks, sortOption }));
-  },
-}));
+      sortTasks: (sortOption) => {
+        const state = get();
+        const sortedTasks = sortByOption(state.tasks, sortOption);
+        set({ tasks: sortedTasks, sortOption });
+        },
+    }),
+    {
+      name: "tasks",
+    },
+  ),
+);
 
 function sortByOption(tasks: Task[], sortOption: string) {
   if (!sortOption) return tasks;

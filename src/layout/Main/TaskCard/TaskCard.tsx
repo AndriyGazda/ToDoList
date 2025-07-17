@@ -5,7 +5,7 @@ import classes from "./TaskCard.module.css";
 import { memo, useState } from "react";
 import TaskFormModalComponent from "@/component/TaskFormModal/TaskFormModal";
 import { useTaskStore } from "@/store/useTaskStore";
-import type { Task } from "@/interface/taskInterface";
+import type { Task } from "@/interface/task.interface.ts";
 
 interface TaskCardProps {
   task: Task;
@@ -74,8 +74,8 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
         }
         initialTitle={task.title}
         initialDescription={task.description || "No description"}
-        initialPriority={task.priority}
-        initialStatus={task.status}
+        initialPriority={task.priority || "No description"}
+        initialStatus={task.status || "No description"}
         initialDueDate={task.dueDate || new Date().toISOString().split("T")[0]}
         heading={`Edit Task ${task.title}`}
         submitLabel="Save"

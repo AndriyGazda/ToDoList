@@ -10,7 +10,6 @@ const TaskControls = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
   const onAddTask = useTaskStore((state) => state.addTask);
-  // const [sortTask, setSortTask] = useState("");
   const sortTask = useTaskStore((state) => state.sortTasks);
 
   const openModal = () => {

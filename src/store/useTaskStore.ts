@@ -35,7 +35,7 @@ export const useTaskStore = create<TaskStore>()(
         const state = get();
         const sortedTasks = sortByOption(state.tasks, sortOption);
         set({ tasks: sortedTasks, sortOption });
-        },
+      },
     }),
     {
       name: "tasks",

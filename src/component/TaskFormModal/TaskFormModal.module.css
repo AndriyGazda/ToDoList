@@ -1,2 +1,138 @@
-.creatModal {
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
+.titleModalForm {
+  padding: 20px;
+  text-align: center;
+}
+
+.wrapperForm {
+  padding: 0 20px 20px 20px;
+}
+
+.wrapperForm label {
+  display: block;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.wrapperForm input,
+textarea,
+select,
+option {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+
+  border-radius: 8px;
+  background-color: #ffffff5c;
+  border: none;
+  scrollbar-width: none;
+}
+
+.wrapperForm textarea {
+  resize: none;
+}
+
+.wrapperForm select {
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.wrapperForm input[type="date"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.wrapperForm input[type="radio"] {
+  display: none;
+}
+
+.wrapperForm .statusRadioBtnWrapper {
+  /*display: flex;*/
+  align-items: center;
+  gap: 10px;
+}
+
+.wrapperForm input[type="radio"].statusRadioBtn {
+}
+
+/* Стиль для кастомного label */
+.wrapperForm label.statusRadioBtn {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #ffffff5c;
+  color: #333;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.wrapperForm input[type="radio"].statusRadioBtn:checked + label.statusRadioBtn {
+  background-color: #2f9b4a;
+  color: #ffffffc7;
+  /*border-color: #4caf50;*/
+}
+
+.wrapperForm .statusRadioBtn:hover {
+  /*background-color: #81a98a;*/
+  background-color: #2f9b4a;
+  color: #ffffffc7;
+}
+
+/* Фокус для клавіатури */
+.wrapperForm input[type="radio"].statusRadioBtn:focus + label.statusRadioBtn {
+  outline: 2px solid #4caf50;
+  outline-offset: 2px;
+}
+
+.btnWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.singleBtn {
+  justify-content: center;
+}
+
+.doubleBtn {
+  justify-content: space-between;
+}
+
+.btnSubmitForm {
+  width: 200px;
+  padding: 12px 20px;
+
+  background-color: #208b24;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btnSubmitForm:hover {
+  background-color: rgba(32, 139, 36, 0.48);
+}
+
+.btnSubmitForm:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/*.btnSubmitForm:disabled {*/
+/*  background-color: #a5d6a7;*/
+/*  cursor: not-allowed;*/
+/*}*/

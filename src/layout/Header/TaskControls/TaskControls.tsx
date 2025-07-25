@@ -18,10 +18,8 @@ const TaskControls = () => {
   };
   const closeModal = () => setIsModalOpen(false);
 
-  const onSortTask = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const onSortTask = (event: React.ChangeEvent<HTMLSelectElement>) =>
     sortTask(event.target.value);
-  };
-
   console.log("TaskControls render zustand");
   return (
     <div className={classes.taskControls}>
@@ -47,7 +45,7 @@ const TaskControls = () => {
           })
         }
         isEditable={isEditable}
-        heading="Create New Task"
+        heading="New Task"
         submitLabel="Add Task"
       />
 

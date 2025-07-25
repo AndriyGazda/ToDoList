@@ -6,6 +6,7 @@ import type {
   TaskFormModalProps,
   FormData,
 } from "@/interface/taskFormModal.interface.ts";
+import classes from "./TaskFormModal.module.css";
 
 const getCurrentDate = () => new Date().toISOString().split("T")[0];
 
@@ -62,90 +63,134 @@ const TaskFormModal = ({
 
   return (
     <ModalComponent isOpen={isOpen} onClose={onClose}>
-      <h2>{heading}</h2>
+      <div className={classes.form}>
+        <h2 className={classes.titleModalForm}>{heading}</h2>
 
-      <form onSubmit={handleSubmit(ourFormSubmit)}>
-        <label htmlFor="titleTask">Title</label>
-        <Input
-          id="titleTask"
-          type="text"
-          disabled={!isEditable}
-          {...register("title", { required: true })}
-        />
+        <form onSubmit={handleSubmit(ourFormSubmit)}>
+          <div className={classes.wrapperForm}>
+            <label htmlFor="titleTask">Title:</label>
+            <Input
+              id="titleTask"
+              type="text"
+              disabled={!isEditable}
+              {...register("title", { required: true })}
+            />
+          </div>
 
-        <label htmlFor="descriptionTask">Description</label>
-        <textarea
-          id="descriptionTask"
-          rows={7}
-          cols={40}
-          disabled={!isEditable}
-          {...register("description")}
-        ></textarea>
+          <div className={classes.wrapperForm}>
+            <label htmlFor="descriptionTask">Description:</label>
+            <textarea
+              id="descriptionTask"
+              rows={7}
+              disabled={!isEditable}
+              {...register("description")}
+            ></textarea>
+          </div>
 
-        <label htmlFor="priorityTask">Priority</label>
-        <select
-          id="priorityTask"
-          disabled={!isEditable}
-          {...register("priority")}
-        >
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
+          <div className={classes.wrapperForm}>
+            <label htmlFor="priorityTask">Priority:</label>
+            <select
+              id="priorityTask"
+              disabled={!isEditable}
+              {...register("priority")}
+            >
+              <option value="" disabled hidden>
+                Click to select a status
+              </option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
 
-        <fieldset>
-          <legend>Task Status</legend>
-          <label htmlFor="statusTask">Status</label>
-          {submitLabel === "Save" && (
-            <>
+          <div className={classes.wrapperForm}>
+            <label htmlFor="status">Task Status:</label>
+            {submitLabel === "Save" && (
+              <div className={classes.statusRadioBtnWrapper}>
+                <Input
+                  type="radio"
+                  id="statusTaskDone"
+                  value="done"
+                  {...register("status")}
+                  disabled={!isEditable}
+                  checked={statusWatch === "done"}
+                  className={classes.statusRadioBtn}
+                />
+                <label
+                  htmlFor="statusTaskDone"
+                  className={classes.statusRadioBtn}
+                >
+                  Done
+                </label>
+              </div>
+            )}
+
+            <div className={classes.statusRadioBtnWrapper}>
               <Input
                 type="radio"
-                id="statusTaskDone"
-                value="done"
+                id="statusTaskInProgress"
+                value="in-progress"
                 {...register("status")}
                 disabled={!isEditable}
-                checked={statusWatch === "done"}
+                checked={statusWatch === "in-progress"}
+                className={classes.statusRadioBtn}
               />
-              <label htmlFor="statusTaskDone">Done</label>
-            </>
-          )}
-          <Input
-            type="radio"
-            // name="statusTask"
-            id="statusTaskInProgress"
-            value="in-progress"
-            {...register("status")}
-            disabled={!isEditable}
-            checked={statusWatch === "in-progress"}
-          />
-          <label htmlFor="statusTaskInProgress">In Progress</label>
-          <Input
-            type="radio"
-            id="statusTaskPlanned"
-            value="planned"
-            {...register("status")}
-            disabled={!isEditable}
-            checked={statusWatch === "planned"}
-          />
-          <label htmlFor="statusTaskPlanned">Planned</label>
-        </fieldset>
+              <label
+                htmlFor="statusTaskInProgress"
+                className={classes.statusRadioBtn}
+              >
+                In Progress
+              </label>
+            </div>
 
-        <label htmlFor="dueDateTask">Due Date</label>
-        <Input
-          type="date"
-          id="dueDateTask"
-          defaultValue={getCurrentDate()}
-          disabled={!isEditable}
-          {...register("dueDate")}
-        />
+            <div className={classes.statusRadioBtnWrapper}>
+              <Input
+                type="radio"
+                id="statusTaskPlanned"
+                value="planned"
+                {...register("status")}
+                disabled={!isEditable}
+                checked={statusWatch === "planned"}
+                className={classes.statusRadioBtn}
+              />
+              <label
+                htmlFor="statusTaskPlanned"
+                className={classes.statusRadioBtn}
+              >
+                Planned
+              </label>
+            </div>
+          </div>
 
-        <Button type="submit">{submitLabel}</Button>
-      </form>
-      {!isEditable && onEditClick && (
-        <Button type="button" onClick={onEditClick}>
-          Edit Task
-        </Button>
-      )}
+          <div className={classes.wrapperForm}>
+            <label htmlFor="dueDateTask">Due Date:</label>
+            <Input
+              type="date"
+              id="dueDateTask"
+              defaultValue={getCurrentDate()}
+              disabled={!isEditable}
+              {...register("dueDate")}
+            />
+          </div>
+
+          <div className={`${classes.btnWrapper} ${
+            !isEditable && onEditClick ? classes.doubleBtn : classes.singleBtn
+          }`}>
+            <Button type="submit" className={classes.btnSubmitForm}>
+              {submitLabel}
+            </Button>
+            {!isEditable && onEditClick && (
+              <Button
+                type="button"
+                onClick={onEditClick}
+                className={classes.btnSubmitForm}
+              >
+                Edit Task
+              </Button>
+            )}
+          </div>
+        </form>
+      </div>
     </ModalComponent>
   );
 };

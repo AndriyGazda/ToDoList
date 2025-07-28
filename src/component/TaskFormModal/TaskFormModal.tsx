@@ -105,61 +105,64 @@ const TaskFormModal = ({
 
           <div className={classes.wrapperForm}>
             <label htmlFor="status">Task Status:</label>
-            {submitLabel === "Save" && (
-              <div className={classes.statusRadioBtnWrapper}>
-                <Input
-                  type="radio"
-                  id="statusTaskDone"
-                  value="done"
-                  {...register("status")}
-                  disabled={!isEditable}
-                  checked={statusWatch === "done"}
-                  className={classes.statusRadioBtn}
-                />
-                <label
-                  htmlFor="statusTaskDone"
-                  className={classes.statusRadioBtn}
-                >
-                  Done
-                </label>
-              </div>
+
+            {!isEditable ? (
+              // Режим перегляду
+              <p className={classes.statusReadonly}>
+                {initialStatus === "done"
+                  ? "Done"
+                  : initialStatus === "in-progress"
+                    ? "In Progress"
+                    : initialStatus === "planned"
+                      ? "Planned"
+                      : "No status"}
+              </p>
+            ) : (
+              // Режим редагування
+              <>
+                <div className={classes.statusRadioBtnWrapper}>
+                  <Input
+                    type="radio"
+                    id="statusTaskDone"
+                    value="done"
+                    {...register("status")}
+                    checked={statusWatch === "done"}
+                    className={classes.statusRadioBtn}
+                  />
+                  <label htmlFor="statusTaskDone" className={classes.statusRadioBtn}>
+                    Done
+                  </label>
+                </div>
+
+                <div className={classes.statusRadioBtnWrapper}>
+                  <Input
+                    type="radio"
+                    id="statusTaskInProgress"
+                    value="in-progress"
+                    {...register("status")}
+                    checked={statusWatch === "in-progress"}
+                    className={classes.statusRadioBtn}
+                  />
+                  <label htmlFor="statusTaskInProgress" className={classes.statusRadioBtn}>
+                    In Progress
+                  </label>
+                </div>
+
+                <div className={classes.statusRadioBtnWrapper}>
+                  <Input
+                    type="radio"
+                    id="statusTaskPlanned"
+                    value="planned"
+                    {...register("status")}
+                    checked={statusWatch === "planned"}
+                    className={classes.statusRadioBtn}
+                  />
+                  <label htmlFor="statusTaskPlanned" className={classes.statusRadioBtn}>
+                    Planned
+                  </label>
+                </div>
+              </>
             )}
-
-            <div className={classes.statusRadioBtnWrapper}>
-              <Input
-                type="radio"
-                id="statusTaskInProgress"
-                value="in-progress"
-                {...register("status")}
-                disabled={!isEditable}
-                checked={statusWatch === "in-progress"}
-                className={classes.statusRadioBtn}
-              />
-              <label
-                htmlFor="statusTaskInProgress"
-                className={classes.statusRadioBtn}
-              >
-                In Progress
-              </label>
-            </div>
-
-            <div className={classes.statusRadioBtnWrapper}>
-              <Input
-                type="radio"
-                id="statusTaskPlanned"
-                value="planned"
-                {...register("status")}
-                disabled={!isEditable}
-                checked={statusWatch === "planned"}
-                className={classes.statusRadioBtn}
-              />
-              <label
-                htmlFor="statusTaskPlanned"
-                className={classes.statusRadioBtn}
-              >
-                Planned
-              </label>
-            </div>
           </div>
 
           <div className={classes.wrapperForm}>

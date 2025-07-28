@@ -6,6 +6,7 @@ import { memo, useState } from "react";
 import TaskFormModalComponent from "@/component/TaskFormModal/TaskFormModal";
 import { useTaskStore } from "@/store/useTaskStore";
 import type { Task } from "@/interface/task.interface.ts";
+// import {TaskDetailModal} from "@/component/TaskDetailModal/TaskDetailModal.tsx";
 
 interface TaskCardProps {
   task: Task;
@@ -82,6 +83,10 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
         isEditable={isEditable}
         onEditClick={() => setIsEditable(true)}
       />
+
+
+      {/*<TaskDetailModal isOpen={isModalOpen} onClose={closeModal} task={task} onEditClick={() => setIsEditable(true)} />*/}
+
     </div>
   );
 });

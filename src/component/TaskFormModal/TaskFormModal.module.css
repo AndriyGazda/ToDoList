@@ -64,7 +64,6 @@ option {
 .wrapperForm input[type="radio"].statusRadioBtn {
 }
 
-/* Стиль для кастомного label */
 .wrapperForm label.statusRadioBtn {
   padding: 12px;
   border-radius: 8px;
@@ -87,7 +86,6 @@ option {
   color: #ffffffc7;
 }
 
-/* Фокус для клавіатури */
 .wrapperForm input[type="radio"].statusRadioBtn:focus + label.statusRadioBtn {
   outline: 2px solid #4caf50;
   outline-offset: 2px;
@@ -131,8 +129,3 @@ option {
   transform: scale(0.98);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
-
-/*.btnSubmitForm:disabled {*/
-/*  background-color: #a5d6a7;*/
-/*  cursor: not-allowed;*/
-/*}*/

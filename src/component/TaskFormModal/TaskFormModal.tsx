@@ -173,12 +173,25 @@ const TaskFormModal = ({
             />
           </div>
 
-          <div className={`${classes.btnWrapper} ${
-            !isEditable && onEditClick ? classes.doubleBtn : classes.singleBtn
-          }`}>
-            <Button type="submit" className={classes.btnSubmitForm}>
-              {submitLabel}
-            </Button>
+          <div
+            className={`${classes.btnWrapper} ${
+              !isEditable && onEditClick ? classes.doubleBtn : classes.singleBtn
+            }`}
+          >
+            {!isEditable && onEditClick ? (
+              <Button
+                type="button"
+                className={classes.btnSubmitForm}
+                onClick={onClose}
+              >
+                Back
+              </Button>
+            ) : (
+              <Button type="submit" className={classes.btnSubmitForm}>
+                {submitLabel}
+              </Button>
+            )}
+
             {!isEditable && onEditClick && (
               <Button
                 type="button"

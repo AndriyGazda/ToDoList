@@ -1,7 +1,7 @@
 import { Button } from "@/ui";
 import classes from "./Modal.module.css";
 import type { ReactNode } from "react";
-import  {useEffect} from "react";
+import { useEffect } from "react";
 import { X } from "lucide-react";
 
 interface ModalComponentProps {

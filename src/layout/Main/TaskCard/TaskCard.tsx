@@ -29,37 +29,42 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
 
   return (
     <div className={classes.taskCard} id={`task-${task.id}`}>
-      <h3 className={classes.title}>{task.title}</h3>
-      <p className={classes.description}>
-        <span className={classes.label}> Description: </span>
-        {task.description
-          ? task.description.length > 80
-            ? `${task.description.slice(0, 80)} ...`
-            : task.description
-          : "No description"}
-      </p>
-      <p className={classes.priority}>
-        <span className={classes.label}> Priority: </span>
-        {task.priority || "No description"}
-      </p>
-      <p className={classes.status}>
-        <span className={classes.label}> Status: </span>
-        {task.status || "No description"}
-      </p>
-      <p className={classes.date}>
-        <span className={classes.label}> Due Date: </span>{" "}
-        {task.dueDate || "No due date"}
-      </p>
-      <Button
-        onClick={() => onDeleteTask(task.id)}
-        className={classes.buttonDelaete}
-      >
-        Delete
-      </Button>
-      <Button onClick={openModal} className={classes.buttonDetail}>
-        Detail task
-      </Button>
+      <div>
+        <h3 className={classes.title}>{task.title}</h3>
+        <p className={classes.description}>
+          <span className={classes.label}> Description: </span>
+          {task.description
+            ? task.description.length > 80
+              ? `${task.description.slice(0, 80)} ...`
+              : task.description
+            : "No description"}
+        </p>
+        <p className={classes.priority}>
+          <span className={classes.label}> Priority: </span>
+          {task.priority || "No description"}
+        </p>
+        <p className={classes.status}>
+          <span className={classes.label}> Status: </span>
+          {task.status || "No description"}
+        </p>
+        <p className={classes.date}>
+          <span className={classes.label}> Due Date: </span>{" "}
+          {task.dueDate || "No due date"}
+        </p>
+      </div>
 
+      <div className={classes.buttons}>
+        <Button
+          onClick={() => onDeleteTask(task.id)}
+          className={classes.buttonDelete}
+        >
+          Delete
+        </Button>
+
+        <Button onClick={openModal} className={classes.buttonDetail}>
+          Detail task
+        </Button>
+      </div>
       <TaskFormModalComponent
         isOpen={isModalOpen}
         onClose={closeModal}
@@ -84,9 +89,7 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
         onEditClick={() => setIsEditable(true)}
       />
 
-
       {/*<TaskDetailModal isOpen={isModalOpen} onClose={closeModal} task={task} onEditClick={() => setIsEditable(true)} />*/}
-
     </div>
   );
 });

@@ -24,15 +24,18 @@ const TaskFormModal = ({
   heading = "Task Form",
   submitLabel = "Submit",
 }: TaskFormModalProps) => {
-  const { register, handleSubmit, reset, watch } = useForm<FormData>({
-    defaultValues: {
-      title: initialTitle,
-      description: initialDescription,
-      priority: initialPriority,
-      status: initialStatus,
-      dueDate: initialDueDate,
+  const { register, handleSubmit, reset, watch, formState } = useForm<FormData>(
+    {
+      defaultValues: {
+        title: initialTitle,
+        description: initialDescription,
+        priority: initialPriority,
+        status: initialStatus,
+        dueDate: initialDueDate,
+      },
     },
-  });
+  );
+  const { errors } = formState;
 
   const statusWatch = watch("status");
 
@@ -68,31 +71,48 @@ const TaskFormModal = ({
 
         <form onSubmit={handleSubmit(ourFormSubmit)}>
           <div className={classes.wrapperForm}>
-            <label htmlFor="titleTask">Title:</label>
+            <label htmlFor="titleTask" className={classes.labelForm}>Title:</label>
             <Input
+              className={ `${classes.inputTitle} ${errors.title && classes.errorValidate}`}
               id="titleTask"
               type="text"
               disabled={!isEditable}
-              {...register("title", { required: true })}
+              {...register("title", {
+                required: {
+                  value: true,
+                  message:
+                    "Task name is required. Please enter a task name.",
+                },
+              })}
             />
+            <p className={classes.errorMessage}>{errors.title?.message}</p>
           </div>
 
           <div className={classes.wrapperForm}>
-            <label htmlFor="descriptionTask">Description:</label>
+            <label htmlFor="descriptionTask" className={classes.labelForm}>Description:</label>
             <textarea
+              className={`${classes.textareaDescription} ${errors.description && classes.errorValidate}`}
               id="descriptionTask"
               rows={7}
               disabled={!isEditable}
-              {...register("description")}
+              {...register("description", {
+                required: {
+                  value: true,
+                  message: "Description is required. Please enter a description.",
+                }})}
             ></textarea>
+            <p className={classes.errorMessage}>{errors.description?.message}</p>
           </div>
 
           <div className={classes.wrapperForm}>
-            <label htmlFor="priorityTask">Priority:</label>
+            <label htmlFor="priorityTask" className={classes.labelForm}>Priority:</label>
             <select
+              className={`${classes.selectPriority} ${errors.priority && classes.errorValidate}`}
               id="priorityTask"
               disabled={!isEditable}
-              {...register("priority")}
+              {...register("priority", {
+                required: { value: true, message: "Priority is required" },
+              })}
             >
               <option value="" disabled hidden>
                 Click to select a status
@@ -101,13 +121,14 @@ const TaskFormModal = ({
               <option value="medium">Medium</option>
               <option value="high">High</option>
             </select>
+            <p className={classes.errorMessage}>{errors.priority?.message}</p>
+
           </div>
 
           <div className={classes.wrapperForm}>
-            <label htmlFor="status">Task Status:</label>
+            <label htmlFor="status" className={classes.labelForm}>Task Status:</label>
 
             {!isEditable ? (
-              // Режим перегляду
               <p className={classes.statusReadonly}>
                 {initialStatus === "done"
                   ? "Done"
@@ -118,61 +139,41 @@ const TaskFormModal = ({
                       : "No status"}
               </p>
             ) : (
-              // Режим редагування
-              <>
-                <div className={classes.statusRadioBtnWrapper}>
-                  <Input
-                    type="radio"
-                    id="statusTaskDone"
-                    value="done"
-                    {...register("status")}
-                    checked={statusWatch === "done"}
-                    className={classes.statusRadioBtn}
-                  />
-                  <label htmlFor="statusTaskDone" className={classes.statusRadioBtn}>
-                    Done
-                  </label>
-                </div>
+              <div className={classes.statusRadioGroup}>
+                {[
+                  { value: "done", label: "Done" },
+                  { value: "in-progress", label: "In Progress" },
+                  { value: "planned", label: "Planned" },
+                ].map((statusOption) => (
+                  <label
+                    key={statusOption.value}
+                    className={`${classes.statusRadioBtn} ${classes.labelForm} ${
+                      statusWatch === statusOption.value ? classes.active : ""
+                    }`}
 
-                <div className={classes.statusRadioBtnWrapper}>
-                  <Input
-                    type="radio"
-                    id="statusTaskInProgress"
-                    value="in-progress"
-                    {...register("status")}
-                    checked={statusWatch === "in-progress"}
-                    className={classes.statusRadioBtn}
-                  />
-                  <label htmlFor="statusTaskInProgress" className={classes.statusRadioBtn}>
-                    In Progress
+                  >
+                    <input
+                      type="radio"
+                      value={statusOption.value}
+                      {...register("status")}
+                      className={classes.hiddenRadio}
+                    />
+                    {statusOption.label}
                   </label>
-                </div>
-
-                <div className={classes.statusRadioBtnWrapper}>
-                  <Input
-                    type="radio"
-                    id="statusTaskPlanned"
-                    value="planned"
-                    {...register("status")}
-                    checked={statusWatch === "planned"}
-                    className={classes.statusRadioBtn}
-                  />
-                  <label htmlFor="statusTaskPlanned" className={classes.statusRadioBtn}>
-                    Planned
-                  </label>
-                </div>
-              </>
+                ))}
+              </div>
             )}
           </div>
 
           <div className={classes.wrapperForm}>
-            <label htmlFor="dueDateTask">Due Date:</label>
+            <label htmlFor="dueDateTask" className={classes.labelForm}>Due Date:</label>
             <Input
               type="date"
               id="dueDateTask"
               defaultValue={getCurrentDate()}
               disabled={!isEditable}
               {...register("dueDate")}
+              className={`${classes.inputDate} ${errors.dueDate && classes.errorInput}`}
             />
           </div>
 

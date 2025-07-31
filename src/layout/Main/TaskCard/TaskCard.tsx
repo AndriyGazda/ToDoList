@@ -1,12 +1,10 @@
 import { Button } from "@/ui";
-
 import classes from "./TaskCard.module.css";
-
 import { memo, useState } from "react";
-import TaskFormModalComponent from "@/component/TaskFormModal/TaskFormModal";
+import { TaskFormModal } from "@/component/TaskFormModal";
 import { useTaskStore } from "@/store/useTaskStore";
-import type { Task } from "@/interface/task.interface.ts";
-// import {TaskDetailModal} from "@/component/TaskDetailModal/TaskDetailModal.tsx";
+import { useCountdown } from "@/hooks/useCountdown.ts";
+import type { Task } from "@/interface/task.interface";
 
 interface TaskCardProps {
   task: Task;
@@ -15,6 +13,7 @@ interface TaskCardProps {
 const TaskCard = memo(({ task }: TaskCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
+  const timeLeft = useCountdown(task.dueDate);
 
   const onEditTask = useTaskStore((state) => state.editTask);
   const onDeleteTask = useTaskStore((state) => state.deleteTask);
@@ -37,19 +36,21 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
             ? task.description.length > 80
               ? `${task.description.slice(0, 80)} ...`
               : task.description
-            : "No description"}
+            : ""}
         </p>
         <p className={classes.priority}>
           <span className={classes.label}> Priority: </span>
-          {task.priority || "No description"}
+          {task.priority}
         </p>
         <p className={classes.status}>
           <span className={classes.label}> Status: </span>
           {task.status || "No description"}
         </p>
         <p className={classes.date}>
-          <span className={classes.label}> Due Date: </span>{" "}
-          {task.dueDate || "No due date"}
+          <span className={classes.label}> Due Date: </span> {task.dueDate}
+        </p>
+        <p className={classes.date}>
+          <span className={classes.label}> Time Left: </span> {timeLeft}
         </p>
       </div>
 
@@ -65,7 +66,7 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
           Detail task
         </Button>
       </div>
-      <TaskFormModalComponent
+      <TaskFormModal
         isOpen={isModalOpen}
         onClose={closeModal}
         onSubmit={(taskInfo) =>
@@ -79,10 +80,10 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
           })
         }
         initialTitle={task.title}
-        initialDescription={task.description || "No description"}
-        initialPriority={task.priority || "No description"}
+        initialDescription={task.description}
+        initialPriority={task.priority}
         initialStatus={task.status || "No description"}
-        initialDueDate={task.dueDate || new Date().toISOString().split("T")[0]}
+        initialDueDate={task.dueDate}
         heading={`Edit Task ${task.title}`}
         submitLabel="Save"
         isEditable={isEditable}

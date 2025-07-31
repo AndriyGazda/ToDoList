@@ -2,13 +2,10 @@ import { ModalComponent } from "../Modal/Modal";
 import { Button, Input } from "@/ui";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import type {
-  TaskFormModalProps,
-  FormData,
-} from "@/interface/taskFormModal.interface.ts";
+import { statuses } from "@/helpers/variables";
+import type { TaskFormModalProps, FormData } from "@/interface";
 import classes from "./TaskFormModal.module.css";
-
-const getCurrentDate = () => new Date().toISOString().split("T")[0];
+import { getDaysAndHoursLeft } from "@/helpers/functions";
 
 const TaskFormModal = ({
   isOpen,
@@ -20,24 +17,29 @@ const TaskFormModal = ({
   initialDescription = "",
   initialPriority = "",
   initialStatus = "",
-  initialDueDate = new Date().toISOString().split("T")[0],
+  initialDueDate = "No date",
+
   heading = "Task Form",
   submitLabel = "Submit",
 }: TaskFormModalProps) => {
-  const { register, handleSubmit, reset, watch, formState } = useForm<FormData>(
-    {
-      defaultValues: {
-        title: initialTitle,
-        description: initialDescription,
-        priority: initialPriority,
-        status: initialStatus,
-        dueDate: initialDueDate,
-      },
+  const DefaultValues = {
+    defaultValues: {
+      title: initialTitle,
+      description: initialDescription,
+      priority: initialPriority,
+      status: initialStatus,
+      dueDate: initialDueDate,
     },
-  );
-  const { errors } = formState;
+  };
 
+  const { register, handleSubmit, reset, watch, formState } =
+    useForm<FormData>(DefaultValues);
+  const { errors } = formState;
   const statusWatch = watch("status");
+
+  const dueDateWatch = watch("dueDate");
+
+  const isBackMode = !isEditable && onEditClick;
 
   useEffect(() => {
     if (isOpen) {
@@ -46,7 +48,7 @@ const TaskFormModal = ({
         description: initialDescription,
         priority: initialPriority,
         status: initialStatus,
-        dueDate: initialDueDate || getCurrentDate(),
+        dueDate: initialDueDate,
       });
     }
   }, [
@@ -63,6 +65,7 @@ const TaskFormModal = ({
     onSubmit(data);
     onClose();
   };
+  const timeLeft = getDaysAndHoursLeft(dueDateWatch);
 
   return (
     <ModalComponent isOpen={isOpen} onClose={onClose}>
@@ -71,17 +74,18 @@ const TaskFormModal = ({
 
         <form onSubmit={handleSubmit(ourFormSubmit)}>
           <div className={classes.wrapperForm}>
-            <label htmlFor="titleTask" className={classes.labelForm}>Title:</label>
+            <label htmlFor="titleTask" className={classes.labelForm}>
+              Title:
+            </label>
             <Input
-              className={ `${classes.inputTitle} ${errors.title && classes.errorValidate}`}
+              className={`${classes.inputTitle} ${errors.title && classes.errorValidate}`}
               id="titleTask"
               type="text"
               disabled={!isEditable}
               {...register("title", {
                 required: {
                   value: true,
-                  message:
-                    "Task name is required. Please enter a task name.",
+                  message: "Task name is required. Please enter a task name.",
                 },
               })}
             />
@@ -89,7 +93,9 @@ const TaskFormModal = ({
           </div>
 
           <div className={classes.wrapperForm}>
-            <label htmlFor="descriptionTask" className={classes.labelForm}>Description:</label>
+            <label htmlFor="descriptionTask" className={classes.labelForm}>
+              Description:
+            </label>
             <textarea
               className={`${classes.textareaDescription} ${errors.description && classes.errorValidate}`}
               id="descriptionTask"
@@ -98,14 +104,20 @@ const TaskFormModal = ({
               {...register("description", {
                 required: {
                   value: true,
-                  message: "Description is required. Please enter a description.",
-                }})}
+                  message:
+                    "Description is required. Please enter a description.",
+                },
+              })}
             ></textarea>
-            <p className={classes.errorMessage}>{errors.description?.message}</p>
+            <p className={classes.errorMessage}>
+              {errors.description?.message}
+            </p>
           </div>
 
           <div className={classes.wrapperForm}>
-            <label htmlFor="priorityTask" className={classes.labelForm}>Priority:</label>
+            <label htmlFor="priorityTask" className={classes.labelForm}>
+              Priority:
+            </label>
             <select
               className={`${classes.selectPriority} ${errors.priority && classes.errorValidate}`}
               id="priorityTask"
@@ -122,11 +134,12 @@ const TaskFormModal = ({
               <option value="high">High</option>
             </select>
             <p className={classes.errorMessage}>{errors.priority?.message}</p>
-
           </div>
 
           <div className={classes.wrapperForm}>
-            <label htmlFor="status" className={classes.labelForm}>Task Status:</label>
+            <label htmlFor="status" className={classes.labelForm}>
+              Task Status:
+            </label>
 
             {!isEditable ? (
               <p className={classes.statusReadonly}>
@@ -140,25 +153,20 @@ const TaskFormModal = ({
               </p>
             ) : (
               <div className={classes.statusRadioGroup}>
-                {[
-                  { value: "done", label: "Done" },
-                  { value: "in-progress", label: "In Progress" },
-                  { value: "planned", label: "Planned" },
-                ].map((statusOption) => (
+                {statuses.map((status) => (
                   <label
-                    key={statusOption.value}
+                    key={status.value}
                     className={`${classes.statusRadioBtn} ${classes.labelForm} ${
-                      statusWatch === statusOption.value ? classes.active : ""
+                      statusWatch === status.value ? classes.active : ""
                     }`}
-
                   >
                     <input
                       type="radio"
-                      value={statusOption.value}
+                      value={status.value}
                       {...register("status")}
                       className={classes.hiddenRadio}
                     />
-                    {statusOption.label}
+                    {status.label}
                   </label>
                 ))}
               </div>
@@ -166,15 +174,23 @@ const TaskFormModal = ({
           </div>
 
           <div className={classes.wrapperForm}>
-            <label htmlFor="dueDateTask" className={classes.labelForm}>Due Date:</label>
+            <label htmlFor="dueDateTask" className={classes.labelForm}>
+              Due Date:
+            </label>
             <Input
-              type="date"
+              type="datetime-local"
               id="dueDateTask"
-              defaultValue={getCurrentDate()}
               disabled={!isEditable}
               {...register("dueDate")}
-              className={`${classes.inputDate} ${errors.dueDate && classes.errorInput}`}
+              className={`${classes.inputDate} -`}
             />
+            {dueDateWatch && dueDateWatch !== "No date" && (
+              <p className={classes.dataTimeInterval}>
+                {timeLeft
+                  ? `Left Time: ${timeLeft} `
+                  : "Василь?? Неможливо вибрати дату в минулому."}
+              </p>
+            )}
           </div>
 
           <div
@@ -182,19 +198,15 @@ const TaskFormModal = ({
               !isEditable && onEditClick ? classes.doubleBtn : classes.singleBtn
             }`}
           >
-            {!isEditable && onEditClick ? (
+            {
               <Button
-                type="button"
+                type={isBackMode ? "button" : "submit"}
                 className={classes.btnSubmitForm}
-                onClick={onClose}
+                onClick={isBackMode ? onClose : undefined}
               >
-                Back
+                {isBackMode ? "Back" : submitLabel}
               </Button>
-            ) : (
-              <Button type="submit" className={classes.btnSubmitForm}>
-                {submitLabel}
-              </Button>
-            )}
+            }
 
             {!isEditable && onEditClick && (
               <Button

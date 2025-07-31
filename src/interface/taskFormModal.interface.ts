@@ -11,6 +11,7 @@ export interface TaskFormModalProps {
   initialPriority?: string;
   initialStatus?: string;
   initialDueDate?: string;
+
   heading?: string;
   submitLabel?: string;
 }

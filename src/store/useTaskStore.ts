@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import type { Task, TaskStore } from "@/interface/task.interface.ts";
+import type { TaskStore } from "@/interface/task.interface.ts";
 import { persist } from "zustand/middleware";
+import { sortByOption } from "@/helpers/functions/sortByOption.function.ts";
 
 export const useTaskStore = create<TaskStore>()(
   persist(
@@ -42,24 +43,3 @@ export const useTaskStore = create<TaskStore>()(
     },
   ),
 );
-
-function sortByOption(tasks: Task[], sortOption: string) {
-  if (!sortOption) return tasks;
-
-  const sorted = [...tasks].sort((a, b) => {
-    if (sortOption === "status") {
-      return a.status.localeCompare(b.status);
-    } else if (sortOption === "priority") {
-      const priorityOrder = ["low", "medium", "high"];
-      return (
-        priorityOrder.indexOf(a.priority.toLowerCase()) -
-        priorityOrder.indexOf(b.priority.toLowerCase())
-      );
-    } else if (sortOption === "date") {
-      return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-    }
-    return 0;
-  });
-
-  return sorted;
-}

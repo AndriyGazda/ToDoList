@@ -1,1 +1,1 @@
-export { getDaysAndHoursLeft } from "./updatedTimer.function";
+export * from "./updatedTimer.function";

@@ -3,8 +3,9 @@ import classes from "./TaskCard.module.css";
 import { memo, useState } from "react";
 import { TaskFormModal } from "@/component/TaskFormModal";
 import { useTaskStore } from "@/store/useTaskStore";
-import { useCountdown } from "@/hooks/useCountdown.ts";
+// import { useCountdown } from "@/hooks/useCountdown.ts";
 import type { Task } from "@/interface/task.interface";
+import {Timer} from "@/component/Timer  /TImer.UI.tsx";
 
 interface TaskCardProps {
   task: Task;
@@ -13,7 +14,7 @@ interface TaskCardProps {
 const TaskCard = memo(({ task }: TaskCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
-  const timeLeft = useCountdown(task.dueDate);
+  // const timeLeft = useCountdown(task.dueDate);
 
   const onEditTask = useTaskStore((state) => state.editTask);
   const onDeleteTask = useTaskStore((state) => state.deleteTask);
@@ -49,9 +50,9 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
         <p className={classes.date}>
           <span className={classes.label}> Due Date: </span> {task.dueDate}
         </p>
-        <p className={classes.date}>
-          <span className={classes.label}> Time Left: </span> {timeLeft}
-        </p>
+
+        <Timer wrapperClassName={classes.date} labelClassName={classes.label}>{task.dueDate}</Timer>
+
       </div>
 
       <div className={classes.buttons}>
@@ -66,6 +67,8 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
           Detail task
         </Button>
       </div>
+
+
       <TaskFormModal
         isOpen={isModalOpen}
         onClose={closeModal}

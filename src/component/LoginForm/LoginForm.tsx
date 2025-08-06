@@ -1,5 +1,6 @@
 import { Button, Input } from "@/ui";
 import { useForm } from "react-hook-form";
+import classes from "./LoginForm.module.css";
 
 interface LoginFormProps {
   onLogin: () => void;
@@ -18,8 +19,10 @@ const onSubmit = (data: FormData) => {
 }
 
   return (
-    <div className={"loginWrapper"}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className={classes.pageWrapper}>
+
+    <div className={classes.loginWrapper}>
+      <form onSubmit={handleSubmit(onSubmit)} className={classes.loginForm}>
         <div>
           <label htmlFor="username">Username:</label>
           <Input type="text" id="username" {...register("username")} required />
@@ -30,6 +33,7 @@ const onSubmit = (data: FormData) => {
         </div>
         <Button type="submit">Login</Button>
       </form>
+    </div>
     </div>
   );
 };

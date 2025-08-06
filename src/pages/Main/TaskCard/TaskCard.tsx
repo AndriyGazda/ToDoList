@@ -5,7 +5,7 @@ import { TaskFormModal } from "@/component/TaskFormModal";
 import { useTaskStore } from "@/store/useTaskStore";
 // import { useCountdown } from "@/hooks/useCountdown.ts";
 import type { Task } from "@/interface/task.interface";
-import {Timer} from "@/component/Timer  /TImer.UI.tsx";
+import { Timer } from "@/component/Timer  /TImer.UI.tsx";
 
 interface TaskCardProps {
   task: Task;
@@ -51,8 +51,9 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
           <span className={classes.label}> Due Date: </span> {task.dueDate}
         </p>
 
-        <Timer wrapperClassName={classes.date} labelClassName={classes.label}>{task.dueDate}</Timer>
-
+        <Timer wrapperClassName={classes.date} labelClassName={classes.label}>
+          {task.dueDate}
+        </Timer>
       </div>
 
       <div className={classes.buttons}>
@@ -67,7 +68,6 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
           Detail task
         </Button>
       </div>
-
 
       <TaskFormModal
         isOpen={isModalOpen}

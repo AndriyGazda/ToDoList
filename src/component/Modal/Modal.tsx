@@ -33,7 +33,7 @@ export const ModalComponent = ({
         className={classes.modal}
         onClick={(event) => event.stopPropagation()}
       >
-        <Button onClick={onClose} className={classes.closeBtn}>
+        <Button onClick={onClose} className={classes.closeBtn} unstyled>
           <X className={classes.closeBtnIcon} size={47} />
         </Button>
         {children}

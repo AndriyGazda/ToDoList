@@ -1,45 +1,45 @@
 import { create } from "zustand";
 import type { TaskStore } from "@/interface/task.interface.ts";
-import { persist } from "zustand/middleware";
 import { sortByOption } from "@/helpers/functions/sortByOption.function.ts";
+import axios from "axios";
 
-export const useTaskStore = create<TaskStore>()(
-  persist(
-    (set, get) => ({
-      tasks: [],
-      sortOption: "",
+const API_URL = "http://localhost:3000/tasks";
 
-      addTask: (task) => {
-        const state = get();
-        const updatedTasks = [...state.tasks, task];
-        const sortedTasks = sortByOption(updatedTasks, state.sortOption);
-        set({ tasks: sortedTasks });
-      },
+export const useTaskStore = create<TaskStore>()((set, get) => ({
+  tasks: [],
+  sortOption: "",
 
-      editTask: (task) => {
-        const state = get();
-        const updatedTasks = state.tasks.map((t) =>
-          t.id === task.id ? task : t,
-        );
-        const sortedTasks = sortByOption(updatedTasks, state.sortOption);
-        set({ tasks: sortedTasks });
-      },
+  fetchTasks: async () => {
+    const { sortOption } = get();
+    const response = await axios.get(API_URL);
+    const sorted = sortByOption(response.data, sortOption);
+    set({ tasks: sorted });
+  },
 
-      deleteTask: (id) => {
-        const state = get();
-        const updatedTasks = state.tasks.filter((t) => t.id !== id);
-        const sortedTasks = sortByOption(updatedTasks, state.sortOption);
-        set({ tasks: sortedTasks });
-      },
+  addTask: async (task) => {
+    const { sortOption } = get();
+    const response = await axios.post(API_URL, task);
+    const updated = [...get().tasks, response.data];
+    const sorted = sortByOption(updated, sortOption);
+    set({ tasks: sorted });
+  },
 
-      sortTasks: (sortOption) => {
-        const state = get();
-        const sortedTasks = sortByOption(state.tasks, sortOption);
-        set({ tasks: sortedTasks, sortOption });
-      },
-    }),
-    {
-      name: "tasks",
-    },
-  ),
-);
+  editTask: async (task) => {
+    await axios.patch(`${API_URL}/${task.id}`, task);
+    const updated = get().tasks.map((t) => (t.id === task.id ? task : t));
+    const sorted = sortByOption(updated, get().sortOption);
+    set({ tasks: sorted });
+  },
+
+  deleteTask: async (id) => {
+    await axios.delete(`${API_URL}/${id}`);
+    const updated = get().tasks.filter((t) => t.id !== id);
+    const sorted = sortByOption(updated, get().sortOption);
+    set({ tasks: sorted });
+  },
+
+  sortTasks: (sortOption) => {
+    const sorted = sortByOption(get().tasks, sortOption);
+    set({ tasks: sorted, sortOption });
+  },
+}));

@@ -27,11 +27,9 @@
   margin-top: 10px;
 }
 
-.inputTitle,
 .textareaDescription,
 .selectPriority,
-option,
-.inputDate {
+option {
   width: 100%;
   padding: 12px;
   font-size: 18px;
@@ -42,10 +40,9 @@ option,
   scrollbar-width: none;
 }
 
-.wrapperForm .inputTitle:focus,
+.wrapperForm,
 .textareaDescription:focus,
-.selectPriority:focus,
-.inputDate:focus {
+.selectPriority:focus {
   outline: none;
   border: none;
   box-shadow: none;
@@ -122,18 +119,8 @@ option,
 
 .btnSubmitForm {
   width: 200px;
-  padding: 12px 20px;
 
-  background-color: #208b24;
-  color: white;
-  font-size: 16px;
   font-weight: bold;
-  border-radius: 10px;
-
-  transition:
-    background-color 0.2s ease,
-    transform 0.1s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .btnSubmitForm:hover {

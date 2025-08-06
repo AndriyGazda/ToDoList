@@ -182,7 +182,7 @@ const TaskFormModal = ({
               id="dueDateTask"
               disabled={!isEditable}
               {...register("dueDate")}
-              className={`${classes.inputDate} -`}
+              className={`${classes.inputDate}`}
             />
             {dueDateWatch && dueDateWatch !== "No date" && (
               <p className={classes.dataTimeInterval}>

@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "adminadmin"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "ca7d43c6-d7a8-411c-a8cc-31cd01243f8c",
+      "title": "sda",
+      "description": "dsa",
+      "status": "in-progress",
+      "priority": "low",
+      "dueDate": "2025-08-29T16:24"
+    }
+  ]
+}

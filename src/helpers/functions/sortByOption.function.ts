@@ -1,4 +1,4 @@
-import type {Task} from "@/interface/task.interface.ts";
+import type { Task } from "@/interface/task.interface.ts";
 
 export function sortByOption(tasks: Task[], sortOption: string) {
   if (!sortOption) return tasks;
@@ -7,7 +7,7 @@ export function sortByOption(tasks: Task[], sortOption: string) {
     if (sortOption === "status") {
       return a.status.localeCompare(b.status);
     } else if (sortOption === "priority") {
-      const priorityOrder = [ "high" , "medium", "low" ];
+      const priorityOrder = ["high", "medium", "low"];
       return (
         priorityOrder.indexOf(a.priority.toLowerCase()) -
         priorityOrder.indexOf(b.priority.toLowerCase())

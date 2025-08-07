@@ -10,30 +10,39 @@ type FormData = {
   password: string;
 };
 
-const LoginForm = ({onLogin}: LoginFormProps) => {
+const LoginForm = ({ onLogin }: LoginFormProps) => {
   const { register, handleSubmit } = useForm<FormData>();
 
-const onSubmit = (data: FormData) => {
-  console.log("Form submitted",data);
-  onLogin();
-}
+  const onSubmit = (data: FormData) => {
+    console.log("Form submitted", data);
+    onLogin();
+  };
 
   return (
     <div className={classes.pageWrapper}>
-
-    <div className={classes.loginWrapper}>
-      <form onSubmit={handleSubmit(onSubmit)} className={classes.loginForm}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <Input type="text" id="username" {...register("username")} required />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <Input type="password" id="password" {...register("password")} required />
-        </div>
-        <Button type="submit">Login</Button>
-      </form>
-    </div>
+      <div className={classes.loginWrapper}>
+        <form onSubmit={handleSubmit(onSubmit)} className={classes.loginForm}>
+          <div>
+            <label htmlFor="username">Username:</label>
+            <Input
+              type="text"
+              id="username"
+              {...register("username")}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <Input
+              type="password"
+              id="password"
+              {...register("password")}
+              required
+            />
+          </div>
+          <Button type="submit">Login</Button>
+        </form>
+      </div>
     </div>
   );
 };

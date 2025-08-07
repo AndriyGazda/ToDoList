@@ -28,7 +28,7 @@ function App() {
   return (
     <>
       {login ? (
-        <LoginForm onLogin={()=> setLogin(false)}/>
+        <LoginForm onLogin={() => setLogin(false)} />
       ) : (
         <>
           <HeaderComponent />

@@ -3,7 +3,7 @@ import type { TaskStore } from "@/interface/task.interface.ts";
 import { sortByOption } from "@/helpers/functions/sortByOption.function.ts";
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/tasks";
+const API_URL = "https://todolist-igmg.onrender.com/users";
 
 export const useTaskStore = create<TaskStore>()((set, get) => ({
   tasks: [],
